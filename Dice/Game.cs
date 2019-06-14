@@ -19,6 +19,8 @@ namespace Dice
 
             Console.WriteLine(playerOne.Name);
 
+            Console.WriteLine(Dice.Roll());
+
 
         }
     }

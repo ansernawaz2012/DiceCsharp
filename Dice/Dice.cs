@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Dice
 {
-   public  class Dice
+   public static class Dice
     {
-        public int Roll()
+        public static int Roll()
         {
             Random randomNumber = new Random();
 
