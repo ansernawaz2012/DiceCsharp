@@ -13,6 +13,11 @@ namespace Dice
 
         public string Name { get; set; }
 
+        public bool GameLost { get; set; } = false;
+
+        public bool GameWon { get; set; } = false;
+
+
         public Player()
         {
 
