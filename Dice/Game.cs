@@ -13,7 +13,7 @@ namespace Dice
         private bool gameEnded = false;
         private string userInstruction;
         Player playerOne = new Player();
-        Score score = new Score(); 
+       // Score score = new Score();
 
         //Constructor starts game
         public Game()
@@ -21,8 +21,9 @@ namespace Dice
             StartGame();
         }
 
-
-        // creates new instance of a player and starts loop
+        /// <summary>
+        /// creates new instance of a player and starts loop
+        /// </summary>
         public void StartGame()
         {
 
@@ -30,7 +31,7 @@ namespace Dice
 
             Console.ReadKey();
 
-            
+
             // Loop until score >= 20 or a 1 is rolled
             while (!gameEnded)
             {
@@ -39,73 +40,35 @@ namespace Dice
 
                 Console.WriteLine($"You have rolled a {currentRoll}");
 
-
-                playerOne = score.CheckDiceScore(playerOne, currentRoll);
-
-                //playerOne.Score += currentRoll;
+                playerOne = Score.CheckDiceScore(playerOne, currentRoll);
 
 
-                //if (currentRoll == 1)
-                //{
-                //    gameEnded = true;
-                //    Console.WriteLine($"Game Over! Your score is {playerOne.Score}");
-                //    Console.WriteLine("Press r to Restart or q to Quit");
-
-                // userInstruction = Console.ReadLine();
-
-                // CheckUserInput(userInstruction);
-
-                //}
-                //else if(playerOne.Score >= 20)
-                //{
-                //    gameEnded = true;
-                //    Console.WriteLine($"You have won!!!! Your score is {playerOne.Score}");
-                //    Console.ReadLine();
-
-                //}
-                //else
-                //{
-                //    Console.WriteLine($"Your current score is {playerOne.Score}");
-                //    Console.WriteLine("Press the return key to roll again.");
-
-                //    Console.ReadLine();
-
-                //}
 
                 if (playerOne.GameLost)
                 {
-                    gameEnded = true;
-                    Console.WriteLine($"Game Over! Your score is {playerOne.Score}");
-                    Console.WriteLine("Press r to Restart or q to Quit");
-                    userInstruction = Console.ReadLine();
-
-                     CheckUserInput(userInstruction);
+                    EndOfGame();
                 }
                 else if (playerOne.GameWon)
                 {
-                    gameEnded = true;
-                        Console.WriteLine($"You have won!!!! Your score is {playerOne.Score}");
-                        Console.ReadLine();
-
-                        Console.WriteLine("Press r to Restart or q to Quit");
-                        userInstruction = Console.ReadLine();
-
-                        CheckUserInput(userInstruction);
+                    EndOfGame();
                 }
 
                 else
                 {
                     Console.WriteLine($"Your current score is {playerOne.Score}");
-                        Console.WriteLine("Press the return key to roll again.");
+                    Console.WriteLine("Press the return key to roll again.");
 
-                        Console.ReadLine();
+                    Console.ReadLine();
                 }
 
             }
-
-
+            
         }
 
+        /// <summary>
+        /// Allow user to start a new game
+        /// </summary>
+        /// <param name="userInstruction"></param>
         private void CheckUserInput(string userInstruction)
         {
             if (userInstruction == "r")
@@ -116,14 +79,11 @@ namespace Dice
             {
                 return;
             }
+
         }
-
-        //private void EndGame()
-        //{
-        //    return;
-
-        //}
-
+        /// <summary>
+        /// reset fields when restarting game
+        /// </summary>
         private void RestartGame()
         {
             playerOne.Score = 0;
@@ -131,6 +91,39 @@ namespace Dice
             playerOne.GameLost = false;
             gameEnded = false;
             StartGame();
+        }
+
+        /// <summary>
+        /// Check how game has ended and display message accordingly
+        /// </summary>
+        private void EndOfGame()
+        {
+            if (playerOne.GameWon)
+            {
+                Console.WriteLine($"You have won!!!! Your score is {playerOne.Score}");
+            }
+            else
+            {
+                Console.WriteLine($"Game Over! Your score is {playerOne.Score}");
+            }
+            // Set game ended flag to true to exit while loop
+            gameEnded = true;
+
+            Console.WriteLine("Press r to Restart or q to Quit");
+
+
+            while (true)
+            {
+
+                userInstruction = Console.ReadLine().ToLower().Trim();
+
+                if (string.IsNullOrWhiteSpace(userInstruction) || userInstruction !="r" && userInstruction !="q")
+                    Console.WriteLine("You must enter r or q");
+                else break;
+            }
+
+
+            CheckUserInput(userInstruction);
         }
     }
 }
